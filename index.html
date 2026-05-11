@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WindShield · 四旋翼无人机抗风扰控制系统</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:80px;align-items:center;width:100%;
+}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--cyan);letter-spacing:4px;text-transform:uppercase;
+  margin-bottom:20px;display:flex;align-items:center;gap:12px;
+}
+.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--cyan);}
+.hero-title{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(30px,4vw,54px);font-weight:900;
+  line-height:1.1;margin-bottom:24px;
+}
+.hero-title .t1{color:#fff;}
+.hero-title .t2{
+  background:linear-gradient(90deg,var(--cyan),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-title .t3{color:rgba(255,255,255,.45);font-size:.65em;}
+.hero-desc{
+  font-size:16px;color:var(--text-2);line-height:1.9;
+  font-weight:300;margin-bottom:36px;max-width:480px;
+}
+.hero-desc strong{color:var(--text-1);font-weight:600;}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px;}
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;}
+.hero-stat .stat-num{font-size:28px;}
+
+/* canvas side */
+.hero-canvas-wrap{
+  position:relative;height:480px;
+  border:1px solid var(--border);
+}
+#hero-canvas{width:100%;height:100%;}
+.hud-tl{
+  position:absolute;top:16px;left:16px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--cyan);opacity:.7;line-height:2;pointer-events:none;
+}
+.hud-br{
+  position:absolute;bottom:16px;right:16px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text-3);text-align:right;pointer-events:none;
+}
+.corner{position:absolute;width:18px;height:18px;}
+.corner-tl{top:10px;left:10px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);}
+.corner-br{bottom:10px;right:10px;border-bottom:2px solid var(--cyan);border-right:2px solid var(--cyan);}
+
+/* ── HIGHLIGHTS ── */
+.highlights{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  margin-top:80px;
+}
+.hl-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:32px 28px;position:relative;overflow:hidden;
+  transition:all .3s;
+}
+.hl-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--cyan),transparent);
+  transition:opacity .3s;
+}
+.hl-card:hover{border-color:rgba(0,212,255,.5);transform:translateY(-4px);}
+.hl-num{
+  font-family:'Orbitron',monospace;font-size:48px;font-weight:900;
+  color:transparent;-webkit-text-stroke:1px rgba(0,212,255,.2);
+  position:absolute;top:16px;right:20px;line-height:1;user-select:none;
+}
+.hl-icon{font-size:26px;margin-bottom:16px;}
+.hl-title{
+  font-family:'Orbitron',monospace;font-size:13px;font-weight:700;
+  color:var(--cyan);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;
+}
+.hl-body{font-size:14px;color:var(--text-2);line-height:1.8;font-weight:300;}
+.hl-body strong{color:var(--text-1);font-weight:600;}
+
+/* ── DATA BAND ── */
+.data-band{
+  background:var(--bg-panel);border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:48px 0;margin:80px 0 0;
+}
+.data-band-inner{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:0;
+}
+.band-item{
+  text-align:center;padding:16px;
+  border-right:1px solid var(--border);
+}
+.band-item:last-child{border-right:none;}
+.band-num{
+  font-family:'Orbitron',monospace;font-size:26px;font-weight:900;
+  color:var(--cyan);margin-bottom:6px;
+}
+.band-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text-3);letter-spacing:2px;text-transform:uppercase;
+  line-height:1.5;
+}
+
+/* ── SCENARIO PREVIEW ── */
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.sc-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:28px;position:relative;transition:all .3s;overflow:hidden;
+}
+.sc-card:hover{border-color:rgba(0,212,255,.4);}
+.sc-badge{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  padding:3px 10px;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.sc-badge-s{border:1px solid rgba(0,212,255,.4);color:var(--cyan);}
+.sc-badge-n{border:1px solid rgba(255,107,0,.4);color:var(--orange);}
+.sc-title{
+  font-family:'Orbitron',monospace;font-size:14px;font-weight:700;
+  color:var(--text-1);margin-bottom:10px;
+}
+.sc-desc{font-size:14px;color:var(--text-2);line-height:1.8;font-weight:300;margin-bottom:18px;}
+.sc-metrics{display:flex;gap:20px;flex-wrap:wrap;}
+.sc-metric{display:flex;flex-direction:column;gap:3px;}
+.sc-metric-val{
+  font-family:'Orbitron',monospace;font-size:16px;font-weight:800;color:var(--green);
+}
+.sc-metric-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-3);letter-spacing:1px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-dot"></div>WINDSHIELD
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">首页</a></li>
+    <li><a href="technology.html">技术方案</a></li>
+    <li><a href="results.html">成果展示</a></li>
+    <li><a href="team.html">团队</a></li>
+    <li><a href="contact.html">联系我们</a></li>
+  </ul>
+  <div class="nav-right">国创赛 · 2025</div>
+</nav>
+
+<div class="page-wrap">
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="fade">
+      <div class="hero-eyebrow">UAV Anti-Disturbance Control System</div>
+      <h1 class="hero-title">
+        <div class="t1">四旋翼无人机</div>
+        <div class="t2">抗风扰控制系统</div>
+        <div class="t3">基于真实风场数据驱动</div>
+      </h1>
+      <p class="hero-desc">
+        融合<strong>双闭环PID</strong>与<strong>扩张状态观测器（ESO）</strong>，
+        利用斯图加特真实无人机飞行数据及NOAA极端阵风事件驱动仿真验证，
+        通过<strong>贝叶斯优化</strong>自动调参，实现控制精度提升近<strong>万倍</strong>。
+      </p>
+      <div class="hero-btns">
+        <a class="btn btn-fill" href="technology.html">查看技术方案</a>
+        <a class="btn" href="results.html">仿真成果</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-num">~10000×</div>
+          <div class="stat-label">精度提升</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">真实数据集</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-num">1000</div>
+          <div class="stat-label">优化迭代次数</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade" style="transition-delay:.2s">
+      <div class="hero-canvas-wrap">
+        <canvas id="hero-canvas"></canvas>
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-br"></div>
+        <div class="hud-tl" id="hero-hud">
+          ROLL φ: <span id="hud-phi">0.00</span>°<br>
+          STATUS: HOVERING<br>
+          ESO: ACTIVE
+        </div>
+        <div class="hud-br">REAL-TIME RENDER<br>ROLL AXIS SIM</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DATA BAND -->
+<div class="data-band">
+  <div class="data-band-inner">
+    <div class="band-item">
+      <div class="band-num">50Hz</div>
+      <div class="band-label">风场采样率</div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">381s</div>
+      <div class="band-label">真实飞行数据时长</div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">1ms</div>
+      <div class="band-label">仿真步长</div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">26.8m/s</div>
+      <div class="band-label">验证阵风峰值</div>
+    </div>
+    <div class="band-item">
+      <div class="band-num">0.00008</div>
+      <div class="band-label">最终ISE误差</div>
+    </div>
+  </div>
+</div>
+
+<!-- HIGHLIGHTS -->
+<section>
+  <div class="section-head fade">
+    <div class="section-eyebrow">Core Innovations</div>
+    <div class="section-title">三大核心创新点</div>
+  </div>
+  <div class="highlights">
+    <div class="hl-card fade">
+      <div class="hl-num">01</div>
+      <div class="hl-icon">📡</div>
+      <div class="hl-title">真实数据驱动</div>
+      <div class="hl-body">
+        摒弃人工合成风场，接入<strong>斯图加特大学ANDroMeDA无人机</strong>真实飞行测量数据（40-50m高度，50Hz采样），以及<strong>NOAA丹佛气象站</strong>极端阵风事件数据，使验证更具物理真实性。
+      </div>
+    </div>
+    <div class="hl-card fade" style="transition-delay:.1s">
+      <div class="hl-num">02</div>
+      <div class="hl-icon">⚙️</div>
+      <div class="hl-title">双闭环ESO架构</div>
+      <div class="hl-body">
+        位置外环PID输出期望姿态角，姿态内环PID输出控制力矩，<strong>扩张状态观测器（ESO）</strong>实时估计并前馈补偿风扰动，无需建立精确气动模型。对比LESO与NLESO两种观测器性能。
+      </div>
+    </div>
+    <div class="hl-card fade" style="transition-delay:.2s">
+      <div class="hl-num">03</div>
+      <div class="hl-icon">🧠</div>
+      <div class="hl-title">贝叶斯智能调参</div>
+      <div class="hl-body">
+        基于<strong>Optuna TPE算法</strong>，对8个PID及ESO参数进行1000次贝叶斯优化迭代，ISE积分误差从初始值下降至0.00008，相比原始参数提升<strong>近万倍</strong>。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section>
+  <div class="section-head fade">
+    <div class="section-eyebrow">Validation Scenarios</div>
+    <div class="section-title">双场景验证</div>
+  </div>
+  <div class="scenario-grid">
+    <div class="sc-card fade">
+      <div class="sc-badge sc-badge-s">场景① · Stuttgart</div>
+      <div class="sc-title">斯图加特真实飞行风场</div>
+      <div class="sc-desc">
+        来自德国斯图加特大学WINSENT测试场，ANDroMeDA无人机实测数据，海拔530m，飞行高度40-50m。侧向风速±0.26 m/s，代表正常飞行条件下的精确悬停场景。
+      </div>
+      <div class="sc-metrics">
+        <div class="sc-metric">
+          <div class="sc-metric-val">±1.5×10⁻⁵m</div>
+          <div class="sc-metric-label">位置精度</div>
+        </div>
+        <div class="sc-metric">
+          <div class="sc-metric-val">±1.5×10⁻³°</div>
+          <div class="sc-metric-label">姿态精度</div>
+        </div>
+        <div class="sc-metric">
+          <div class="sc-metric-val">381s</div>
+          <div class="sc-metric-label">数据时长</div>
+        </div>
+      </div>
+    </div>
+    <div class="sc-card fade" style="transition-delay:.1s">
+      <div class="sc-badge sc-badge-n">场景② · NOAA</div>
+      <div class="sc-title">NOAA极端阵风事件</div>
+      <div class="sc-desc">
+        来自NOAA NCEI丹佛国际机场气象站，2021年12月15日科罗拉多极端大风事件，峰值阵风26.8 m/s。验证控制系统在极端天气条件下的鲁棒性。
+      </div>
+      <div class="sc-metrics">
+        <div class="sc-metric">
+          <div class="sc-metric-val">±5×10⁻³m</div>
+          <div class="sc-metric-label">位置精度</div>
+        </div>
+        <div class="sc-metric">
+          <div class="sc-metric-val">±0.5°</div>
+          <div class="sc-metric-label">姿态精度</div>
+        </div>
+        <div class="sc-metric">
+          <div class="sc-metric-val">26.8m/s</div>
+          <div class="sc-metric-label">峰值阵风</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="footer-l">WINDSHIELD · 四旋翼无人机抗风扰控制系统</div>
+  <div class="footer-r">
+    <a href="technology.html">技术方案</a> ·
+    <a href="results.html">成果展示</a> ·
+    <a href="contact.html">联系我们</a>
+  </div>
+</footer>
+</div><!-- /page-wrap -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// Fade on scroll
+const obs = new IntersectionObserver(els=>{
+  els.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.15});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+// Hero Three.js
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  const renderer = new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setClearColor(0x000000,0);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45,1,.1,100);
+  camera.position.set(3,2.2,3.5);camera.lookAt(0,0,0);
+
+  scene.add(new THREE.AmbientLight(0x0a1a2a,4));
+  const dl=new THREE.DirectionalLight(0x00d4ff,2.5);dl.position.set(5,8,5);scene.add(dl);
+  const pl=new THREE.PointLight(0x0044ff,1.5,12);pl.position.set(-3,2,-3);scene.add(pl);
+
+  const grid=new THREE.GridHelper(5,10,0x003344,0x001122);grid.position.y=-1;scene.add(grid);
+
+  const uav=new THREE.Group();
+  const bMat=new THREE.MeshPhongMaterial({color:0x0a1c2e,emissive:0x001122,specular:0x00d4ff,shininess:100});
+  uav.add(new THREE.Mesh(new THREE.BoxGeometry(.32,.09,.32),bMat));
+
+  const aMat=new THREE.MeshPhongMaterial({color:0x071525,specular:0x003355});
+  const rMat=new THREE.MeshPhongMaterial({color:0x00d4ff,emissive:0x002233,transparent:true,opacity:.55});
+  const rotors=[];
+  [[.4,.4],[.4,-.4],[-.4,.4],[-.4,-.4]].forEach(([x,z])=>{
+    const arm=new THREE.Mesh(new THREE.BoxGeometry(.04,.024,.58),aMat);
+    arm.position.set(x/2,0,z/2);arm.rotation.y=Math.atan2(x,z);uav.add(arm);
+    const r=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,.01,16),rMat);
+    r.position.set(x,.05,z);uav.add(r);rotors.push(r);
+    const p=new THREE.Mesh(new THREE.CylinderGeometry(.02,.02,.07,8),
+      new THREE.MeshPhongMaterial({color:0x1a3a5a}));
+    p.position.set(x,.02,z);uav.add(p);
+  });
+  scene.add(uav);
+  scene.add(new THREE.AxesHelper(.7));
+
+  function resize(){
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  resize();window.addEventListener('resize',resize);
+
+  let t=0;
+  (function animate(){
+    requestAnimationFrame(animate);t+=.016;
+    const phi=.15*Math.sin(t*.7)+.05*Math.sin(t*1.9);
+    uav.rotation.z=phi;uav.rotation.x=.03*Math.sin(t*.4);
+    uav.position.y=.04*Math.sin(t*.9);
+    rotors.forEach((r,i)=>{r.rotation.y+=(i%2===0?.16:-.16);});
+    document.getElementById('hud-phi').textContent=(phi*180/Math.PI).toFixed(2);
+    renderer.render(scene,camera);
+  })();
+})();
+</script>
+</body>
+</html>
