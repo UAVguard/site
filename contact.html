@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>联系我们 · WindShield</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-hero{padding:80px 0 60px;border-bottom:1px solid var(--border);}
+.page-hero-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;}
+.page-hero-title{font-family:'Orbitron',monospace;font-size:clamp(28px,4vw,48px);font-weight:900;color:#fff;margin-bottom:16px;}
+.page-hero-sub{font-size:16px;color:var(--text-2);font-weight:300;max-width:600px;line-height:1.8;}
+
+.contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start;}
+
+.contact-info{display:flex;flex-direction:column;gap:20px;}
+.info-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:28px;position:relative;overflow:hidden;
+}
+.info-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);}
+.info-icon{font-size:24px;margin-bottom:12px;}
+.info-title{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.info-val{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--text-1);}
+.info-sub{font-size:13px;color:var(--text-2);margin-top:4px;font-weight:300;}
+
+.project-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:28px;
+}
+.project-card-title{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+.project-row{
+  display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.project-row:last-child{border-bottom:none;}
+.proj-k{color:var(--text-3);}
+.proj-v{color:var(--text-1);}
+
+/* form */
+.form-card{background:var(--bg-card);border:1px solid var(--border);padding:36px;}
+.form-card::before{content:'';display:block;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);margin:-36px -36px 32px;}
+.form-title{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--text-1);letter-spacing:2px;margin-bottom:24px;}
+.form-group{margin-bottom:20px;}
+.form-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text-3);letter-spacing:2px;text-transform:uppercase;
+  display:block;margin-bottom:8px;
+}
+.form-input,
+.form-textarea{
+  width:100%;background:var(--bg-panel);
+  border:1px solid var(--border);color:var(--text-1);
+  font-family:'Rajdhani',sans-serif;font-size:15px;
+  padding:12px 16px;outline:none;
+  transition:border-color .2s;resize:none;
+}
+.form-input:focus,
+.form-textarea:focus{border-color:var(--cyan);}
+.form-textarea{height:120px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-submit{
+  width:100%;padding:14px;
+  font-family:'Orbitron',monospace;font-size:12px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  background:transparent;border:1px solid var(--cyan);
+  color:var(--cyan);cursor:pointer;transition:all .2s;
+  margin-top:8px;
+}
+.form-submit:hover{background:rgba(0,212,255,.1);}
+.form-note{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-3);margin-top:12px;text-align:center;}
+
+/* success */
+.form-success{
+  display:none;text-align:center;padding:40px 20px;
+}
+.form-success-icon{font-size:40px;margin-bottom:16px;}
+.form-success-title{font-family:'Orbitron',monospace;font-size:16px;color:var(--green);margin-bottom:8px;}
+.form-success-sub{font-size:14px;color:var(--text-2);}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html"><div class="nav-logo-dot"></div>WINDSHIELD</a>
+  <ul class="nav-links">
+    <li><a href="index.html">首页</a></li>
+    <li><a href="technology.html">技术方案</a></li>
+    <li><a href="results.html">成果展示</a></li>
+    <li><a href="team.html">团队</a></li>
+    <li><a href="contact.html" class="active">联系我们</a></li>
+  </ul>
+  <div class="nav-right">国创赛 · 2026</div>
+</nav>
+
+<div class="page-wrap">
+<div class="container">
+
+<div class="page-hero fade">
+  <div class="page-hero-label">Contact Us</div>
+  <div class="page-hero-title">联系我们</div>
+  <div class="page-hero-sub">如有技术交流、合作意向或项目咨询，欢迎通过以下方式联系我们。</div>
+</div>
+
+<section>
+  <div class="contact-layout">
+
+    <div class="contact-info fade">
+      <div class="info-card">
+        <div class="info-icon">📧</div>
+        <div class="info-title">邮箱联系</div>
+        <div class="info-val">zhaodr74@gmail.com</div>
+        <div class="info-sub">技术交流 · 合作咨询 · 项目问题</div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">🏫</div>
+        <div class="info-title">所属单位</div>
+        <div class="info-val">同济大学</div>
+        <div class="info-sub">大学生创新创业训练计划项目</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-title">项目信息</div>
+        <div class="project-row"><span class="proj-k">项目名称</span><span class="proj-v">四旋翼抗风扰控制系统</span></div>
+        <div class="project-row"><span class="proj-k">项目类别</span><span class="proj-v">国创赛 · 2026</span></div>
+        <div class="project-row"><span class="proj-k">研究方向</span><span class="proj-v">无人机控制 / 抗扰技术</span></div>
+        <div class="project-row"><span class="proj-k">团队规模</span><span class="proj-v">9人</span></div>
+        <div class="project-row"><span class="proj-k">数据来源</span><span class="proj-v">Stuttgart · NOAA</span></div>
+      </div>
+    </div>
+
+    <div class="form-card fade" style="transition-delay:.15s">
+      <div class="form-title">发送消息</div>
+      <div id="form-wrap">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">姓名</label>
+            <input class="form-input" type="text" placeholder="您的姓名" id="f-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">邮箱</label>
+            <input class="form-input" type="email" placeholder="your@email.com" id="f-email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">机构 / 单位（选填）</label>
+          <input class="form-input" type="text" placeholder="学校或公司名称" id="f-org">
+        </div>
+        <div class="form-group">
+          <label class="form-label">留言内容</label>
+          <textarea class="form-textarea" placeholder="请描述您的问题或合作意向..." id="f-msg"></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm()">发送消息 →</button>
+        <div class="form-note">提交后将发送至项目邮箱，我们会在2个工作日内回复</div>
+      </div>
+      <div class="form-success" id="form-success">
+        <div class="form-success-icon">✓</div>
+        <div class="form-success-title">消息已发送</div>
+        <div class="form-success-sub">感谢您的联系，我们会尽快回复您。</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+<footer>
+  <div class="footer-l">WINDSHIELD · 四旋翼无人机抗风扰控制系统</div>
+  <div class="footer-r"><a href="index.html">首页</a> · <a href="technology.html">技术方案</a> · <a href="results.html">成果展示</a></div>
+</footer>
+</div>
+
+<script>
+const obs=new IntersectionObserver(els=>{els.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+
+function submitForm(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const msg=document.getElementById('f-msg').value.trim();
+  if(!name||!email||!msg){
+    alert('请填写姓名、邮箱和留言内容');return;
+  }
+  document.getElementById('form-wrap').style.display='none';
+  document.getElementById('form-success').style.display='block';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>团队介绍 · WindShield</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+.page-hero{padding:80px 0 60px;border-bottom:1px solid var(--border);}
+.page-hero-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;margin-bottom:12px;}
+.page-hero-title{font-family:'Orbitron',monospace;font-size:clamp(28px,4vw,48px);font-weight:900;color:#fff;margin-bottom:16px;}
+.page-hero-sub{font-size:16px;color:var(--text-2);font-weight:300;max-width:600px;line-height:1.8;}
+
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.member-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:28px;text-align:center;position:relative;
+  transition:all .3s;overflow:hidden;
+}
+.member-card:hover{border-color:rgba(0,212,255,.45);transform:translateY(-4px);}
+.member-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),transparent);}
+.member-avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--bg-panel);border:2px solid var(--border);
+  margin:0 auto 16px;display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:var(--cyan);
+}
+.member-name{font-family:'Orbitron',monospace;font-size:14px;font-weight:700;color:var(--text-1);margin-bottom:6px;}
+.member-role{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;
+}
+.member-desc{font-size:13px;color:var(--text-2);line-height:1.7;font-weight:300;}
+.member-tags{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:12px;}
+.member-tag{
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  padding:2px 8px;border:1px solid var(--border);color:var(--text-3);
+  letter-spacing:1px;
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html"><div class="nav-logo-dot"></div>WINDSHIELD</a>
+  <ul class="nav-links">
+    <li><a href="index.html">首页</a></li>
+    <li><a href="technology.html">技术方案</a></li>
+    <li><a href="results.html">成果展示</a></li>
+    <li><a href="team.html" class="active">团队</a></li>
+    <li><a href="contact.html">联系我们</a></li>
+  </ul>
+  <div class="nav-right">国创赛 · 2026</div>
+</nav>
+
+<div class="page-wrap">
+<div class="container">
+
+<div class="page-hero fade">
+  <div class="page-hero-label">Our Team</div>
+  <div class="page-hero-title">团队介绍</div>
+  <div class="page-hero-sub">9人跨方向协作团队，覆盖控制系统、数据处理、算法优化、可视化全链路</div>
+</div>
+
+<section>
+  <div class="section-head fade">
+    <div class="section-eyebrow">Team Members</div>
+    <div class="section-title">团队<span>成员</span></div>
+  </div>
+  <div class="team-grid">
+    <!-- 占位，后续填入真实信息 -->
+    <div class="member-card fade">
+      <div class="member-avatar">Z</div>
+      <div class="member-name">赵丹然</div>
+      <div class="member-role">控制系统 · 负责人</div>
+      <div class="member-desc">负责双闭环PID+ESO控制系统设计与搭建，真实风场数据接入与仿真验证。</div>
+      <div class="member-tags"><span class="member-tag">MATLAB</span><span class="member-tag">PID</span><span class="member-tag">ESO</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.05s">
+      <div class="member-avatar">L</div>
+      <div class="member-name">李奕祺</div>
+      <div class="member-role">控制系统 · 并行开发</div>
+      <div class="member-desc">参与控制系统并行开发，多版本对比验证，协助确定最优架构方案。</div>
+      <div class="member-tags"><span class="member-tag">MATLAB</span><span class="member-tag">仿真</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.1s">
+      <div class="member-avatar">Z</div>
+      <div class="member-name">曾浩轩</div>
+      <div class="member-role">参数优化</div>
+      <div class="member-desc">基于Optuna TPE贝叶斯优化算法，对8维参数空间进行1000次迭代调参，实现ISE下降万倍。</div>
+      <div class="member-tags"><span class="member-tag">Python</span><span class="member-tag">Optuna</span><span class="member-tag">Bayesian</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.15s">
+      <div class="member-avatar">G</div>
+      <div class="member-name">戈泽锴</div>
+      <div class="member-role">数据处理</div>
+      <div class="member-desc">负责NOAA NCEI及Cabauw气象塔数据整理，风场统计分析与仿真接口开发。</div>
+      <div class="member-tags"><span class="member-tag">NOAA</span><span class="member-tag">数据处理</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.2s">
+      <div class="member-avatar">L</div>
+      <div class="member-name">李豫楚</div>
+      <div class="member-role">数据处理</div>
+      <div class="member-desc">负责斯图加特ANDroMeDA无人机真实飞行数据整理与预处理，50Hz数据插值接入仿真。</div>
+      <div class="member-tags"><span class="member-tag">Stuttgart</span><span class="member-tag">数据分析</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.25s">
+      <div class="member-avatar">Y</div>
+      <div class="member-name">于子轩</div>
+      <div class="member-role">参数优化</div>
+      <div class="member-desc">负责控制系统PID参数与ESO观测器参数的优化整定。</div>
+      <div class="member-tags"><span class="member-tag">可视化</span><span class="member-tag">Three.js</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.3s">
+      <div class="member-avatar">S</div>
+      <div class="member-name">粟昶玮</div>
+      <div class="member-role">可视化仿真</div>
+      <div class="member-desc">负责仿真结果可视化展示，三维姿态渲染与交互式演示系统开发。</div>
+      <div class="member-tags"><span class="member-tag">PPT</span><span class="member-tag">设计</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.35s">
+      <div class="member-avatar">S</div>
+      <div class="member-name">孙姝荟</div>
+      <div class="member-role">商业分析</div>
+      <div class="member-desc">负责商业价值分析、市场调研与商业计划书撰写，覆盖应用场景与商业化路径。</div>
+      <div class="member-tags"><span class="member-tag">商业计划</span><span class="member-tag">市场分析</span></div>
+    </div>
+    <div class="member-card fade" style="transition-delay:.4s">
+      <div class="member-avatar">F</div>
+      <div class="member-name">方万圣</div>
+      <div class="member-role">美工</div>
+      <div class="member-desc">负责项辩PPT制作，技术内容可视化表达与汇报材料设计。</div>
+      <div class="member-tags"><span class="member-tag">竞品分析</span><span class="member-tag">调研</span></div>
+    </div>
+  </div>
+</section>
+
+</div>
+<footer>
+  <div class="footer-l">WINDSHIELD · 四旋翼无人机抗风扰控制系统</div>
+  <div class="footer-r"><a href="index.html">首页</a> · <a href="contact.html">联系我们</a></div>
+</footer>
+</div>
+
+<script>
+const obs=new IntersectionObserver(els=>{els.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.fade').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
